@@ -1,0 +1,34 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the dataset
+df = pd.read_csv("titanic.csv")
+
+# Remove any rows with missing values
+df = df.dropna()
+
+# Create a new column that indicates whether the passenger is male or female
+df["gender"] = df["sex"].apply(lambda x: "male" if x == "male" else "female")
+
+# Create a histogram of the fares paid by the passengers
+plt.hist(df["fare"], bins=20)
+plt.xlabel("Fare")
+plt.ylabel("Number of passengers")
+plt.title("Fares paid by Titanic passengers")
+plt.show()
+
+# Create a bar chart of the number of survivors by gender
+df_survived = df[df["survived"] == 1]
+survivors_by_gender = df_survived.groupby("gender")["survived"].count()
+survivors_by_gender.plot(kind="bar")
+plt.xlabel("Gender")
+plt.ylabel("Number of survivors")
+plt.title("Number of survivors by gender")
+plt.show()
+
+# Create a pie chart of the passenger classes
+pclass_counts = df["pclass"].value_counts()
+pclass_counts.plot(kind="pie", autopct="%d%%")
+plt.axis("equal")
+plt.title("Passenger class distribution")
+plt.show()
